@@ -1,0 +1,221 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/api/v1/user.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "UserService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/token": {
+      "post": {
+        "summary": "Token generates a service account token for the current user.",
+        "operationId": "UserService_Token",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1TokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "properties": {}
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
+    "/v1/token-create": {
+      "post": {
+        "summary": "CreateToken generates an arbitrary service account token",
+        "operationId": "UserService_CreateToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1TokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ServiceAccount"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
+    "/v1/whoami": {
+      "get": {
+        "summary": "Whoami provides information about the currently authenticated principal.",
+        "operationId": "UserService_Whoami",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1WhoamiResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "UserService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1ServiceAccount": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "description": "Name is a human readable name for the service account."
+        },
+        "Description": {
+          "type": "string",
+          "description": "Description is a human readable description for the service account."
+        },
+        "Email": {
+          "type": "string",
+          "description": "Email is the Red Hat email address for the service account."
+        },
+        "IssuedAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "IssuedAt is the time of issuing the service account token."
+        },
+        "NotBefore": {
+          "type": "string",
+          "format": "int64",
+          "description": "NotBefore is the beginning of service account token valid time period."
+        },
+        "ExpiresAt": {
+          "type": "string",
+          "format": "int64",
+          "description": "ExpiresAt is the end of service account token valid time period."
+        }
+      },
+      "description": "ServiceAccount represents an authenticated service account (robot) principal."
+    },
+    "v1TokenResponse": {
+      "type": "object",
+      "properties": {
+        "Account": {
+          "$ref": "#/definitions/v1ServiceAccount",
+          "description": "Account is the service account the token was generated for."
+        },
+        "Token": {
+          "type": "string",
+          "description": "Token is the token generated for the service account."
+        }
+      }
+    },
+    "v1User": {
+      "type": "object",
+      "properties": {
+        "Expiry": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiry is the expiration date of this user session. Used only as a hint\nto the user and not for enforcement."
+        },
+        "Name": {
+          "type": "string",
+          "description": "Name is the full name of the user."
+        },
+        "Email": {
+          "type": "string",
+          "description": "Email is the email address of the user."
+        },
+        "Picture": {
+          "type": "string",
+          "description": "Picture is a URL linking to this user's profile picture, if available."
+        }
+      },
+      "description": "User represents an authenticated (human) principal."
+    },
+    "v1WhoamiResponse": {
+      "type": "object",
+      "properties": {
+        "User": {
+          "$ref": "#/definitions/v1User",
+          "description": "User represents an authenticated human."
+        },
+        "ServiceAccount": {
+          "$ref": "#/definitions/v1ServiceAccount",
+          "description": "ServiceAccount represents an authenticated service account robot."
+        }
+      },
+      "description": "WhoamiResponse represents details about the current authenticated principal."
+    }
+  }
+}

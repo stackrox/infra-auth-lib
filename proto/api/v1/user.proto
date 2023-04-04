@@ -1,0 +1,90 @@
+syntax = "proto3";
+package proto.api.v1;
+
+option go_package = "github.com/stackrox/infra-auth-lib/generated/go/proto/api/v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+// WhoamiResponse represents details about the current authenticated principal.
+message WhoamiResponse {
+    // Principal represents a possible type of authenticated principal.
+    oneof principal {
+        // User represents an authenticated human.
+        User User = 1;
+
+        // ServiceAccount represents an authenticated service account robot.
+        ServiceAccount ServiceAccount = 2;
+    }
+}
+
+// User represents an authenticated (human) principal.
+message User {
+    // Expiry is the expiration date of this user session. Used only as a hint
+    // to the user and not for enforcement.
+    google.protobuf.Timestamp Expiry         = 1;
+
+    // Name is the full name of the user.
+    string Name = 2;
+
+    // Email is the email address of the user.
+    string Email = 3;
+
+    // Picture is a URL linking to this user's profile picture, if available.
+    string Picture = 4;
+}
+
+// ServiceAccount represents an authenticated service account (robot) principal.
+message ServiceAccount {
+    // Name is a human readable name for the service account.
+    string Name = 1;
+
+    // Description is a human readable description for the service account.
+    string Description = 2;
+
+    // Email is the Red Hat email address for the service account.
+    string Email = 3;
+
+    // IssuedAt is the time of issuing the service account token.
+    int64 IssuedAt = 4;
+
+    // NotBefore is the beginning of service account token valid time period.
+    int64 NotBefore = 5;
+
+     // ExpiresAt is the end of service account token valid time period.
+    int64 ExpiresAt = 6;
+}
+
+message TokenResponse {
+    // Account is the service account the token was generated for.
+    ServiceAccount Account = 1;
+
+    // Token is the token generated for the service account.
+    string Token = 2;
+}
+
+service UserService {
+    // Whoami provides information about the currently authenticated principal.
+    rpc Whoami (google.protobuf.Empty) returns (WhoamiResponse) {
+        option (google.api.http) = {
+            get: "/v1/whoami"
+        };
+    }
+
+    // CreateToken generates an arbitrary service account token
+    rpc CreateToken (ServiceAccount) returns (TokenResponse) {
+        option (google.api.http) = {
+            post: "/v1/token-create"
+            body: "*"
+        };
+    }
+
+    // Token generates a service account token for the current user.
+    rpc Token (google.protobuf.Empty) returns (TokenResponse) {
+        option (google.api.http) = {
+            post: "/v1/token"
+            body: "*"
+        };
+    }
+}
