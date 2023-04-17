@@ -178,7 +178,7 @@ func NewUserTokenizer(lifetime time.Duration, secret string) *userTokenizer {
 	}
 }
 
-// userClaims facilitates the arshalling/unmarshalling of JWTs containing v1
+// userClaims facilitates the marshalling/unmarshalling of JWTs containing v1
 // .User data.
 type userClaims struct {
 	User *v1.User `json:"user"`

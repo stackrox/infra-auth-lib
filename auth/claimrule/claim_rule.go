@@ -105,7 +105,7 @@ func (cr *ClaimRule) check(flatTokenClaims map[string]interface{}) error {
 	return errors.Errorf("unsupported operation %q for claim rule path %q", cr.Op, cr.Path)
 }
 
-// ClaimRules represents the collection of claim ruels that should be validated
+// ClaimRules represents the collection of claim rules that should be validated
 // against an access token claims.
 type ClaimRules []ClaimRule
 
