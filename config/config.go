@@ -34,4 +34,16 @@ type AuthOidcConfig struct {
 	// TokenLifeTime is the duration for which generated service account tokens
 	// shall be valid. An example value would be 30m or 8760h.
 	TokenLifetime JSONDuration `json:"tokenLifetime"`
+
+	// EmailBlockList is the list of emails of service accounts that are disallowed access.
+	// An example value would be donotreply@stackrox.com
+	EmailBlockList []string `json:"emailBlockList"`
+
+	// AllowedEmailSuffix is the email suffix to
+	AllowedEmailSuffix string `json:"allowedEmailSuffix"`
 }
+
+var (
+	AllowedEmailSuffix string
+	EmailBlockList     map[string]bool
+)

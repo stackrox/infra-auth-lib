@@ -29,6 +29,12 @@ func NewFromConfig(oidcConfigFile string) (*OidcAuth, error) {
 		return nil, err
 	}
 
+	config.AllowedEmailSuffix = cfg.AllowedEmailSuffix
+
+	for _, email := range cfg.EmailBlockList {
+		config.EmailBlockList[email] = true
+	}
+
 	return &OidcAuth{
 		endpoint:  cfg.Endpoint,
 		provider:  provider,

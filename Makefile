@@ -3,7 +3,7 @@
 ##############
 # This target installs the buf binary.
 buf-install:
-	brew install bufbuild/buf/buf
+	@brew install bufbuild/buf/buf
 
 # This target compiles proto files into:
 # - Go gRPC bindings
