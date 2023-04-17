@@ -14,7 +14,7 @@ import (
 type userImpl struct {
 	v1.UnimplementedUserServiceServer
 
-	generate func(v1.ServiceAccount) (string, error)
+	generate func(*v1.ServiceAccount) (string, error)
 }
 
 var (
@@ -23,7 +23,7 @@ var (
 )
 
 // NewUserService creates a new UserService.
-func NewUserService(generator func(v1.ServiceAccount) (string, error)) (middleware.APIService, error) {
+func NewUserService(generator func(*v1.ServiceAccount) (string, error)) (middleware.APIService, error) {
 	return &userImpl{
 		generate: generator,
 	}, nil
@@ -32,7 +32,7 @@ func NewUserService(generator func(v1.ServiceAccount) (string, error)) (middlewa
 // CreateToken implements UserService.CreateToken.
 func (s *userImpl) CreateToken(_ context.Context, req *v1.ServiceAccount) (*v1.TokenResponse, error) {
 	// Generate the service account token.
-	token, err := s.generate(*req)
+	token, err := s.generate(req)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to generate token")
 	}
