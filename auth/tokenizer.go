@@ -121,11 +121,12 @@ func (c oidcClaims) Valid() error {
 	if isExcluded {
 		return errors.New("email address is excluded")
 	}
+
 	switch {
 	case !c.EmailVerified:
 		return errors.New("email address is not verified")
 	case !strings.HasSuffix(c.Email, config.AllowedEmailSuffix):
-		return errors.Errorf("%q email address does not belong to Red Hat", c.Email)
+		return errors.Errorf("%q email address does not have the allowed email suffix", c.Email)
 	default:
 		c.StandardClaims.IssuedAt -= clockDriftLeeway
 		valid := c.StandardClaims.Valid()
@@ -145,6 +146,10 @@ func (t oidcTokenizer) Validate(ctx context.Context, rawToken *oauth2.Token) (*v
 
 	var claims oidcClaims
 	if err := idToken.Claims(&claims); err != nil {
+		return nil, err
+	}
+
+	if err := claims.Valid(); err != nil {
 		return nil, err
 	}
 
