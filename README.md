@@ -1,3 +1,51 @@
 # infra-auth-lib
 
-Auth Library for infra&amp;automation services, integrates with RHSSO
+Auth Library for infra&amp;automation services for OIDC.
+
+## How to create the OIDC configuration file
+
+Create an OIDC application on your identity provider. Remember client ID, client secret, issuer, and which endpoint(s) you configured.
+
+Generate a session secret with:
+
+```bash
+python3 -c 'import os,base64; print(base64.urlsafe_b64encode(os.urandom(32)).decode())'
+```
+
+Create the file. Your `oidc.yaml` config can look like this, if the IDP is reachable from your backend server.
+
+```yaml
+issuer: https://idp.company.corp
+```
+
+If your IDP is not reachable from your backend server, you must provide the provider configuration offline. Your `oidc.yaml` may look like:
+
+```yaml
+offlineProviderConfig: true
+issuer: https://idp.company.corp
+authUrl: https://idp.company.corp/oauth/authorize
+tokenUrl: https://idp.company.corp/oauth/token
+userInfoUrl: https://idp.company.corp/oauth/userinfo
+jwksUrl: https://idp.company.corp/oauth/discovery/keys
+algorithms:
+  - RS256
+```
+
+In any case, add client and session information, endpoint, additional access token claims, allowed email suffix, and blocked email addresses to this file:
+
+```yaml
+clientID: awesome-application-id
+clientSecret: Y0xZeFNYVVNkLWJMRWJ0cXNzbmk4QUNna3o1dGUyOTZsUWRCcjFBak51Yz0K
+sessionSecret: Tf12qmXZ5y3kWK5M9wmc_dXjN0GUwhtEcErixd07n1U=
+endpoint: localhost:8443
+accessTokenClaims:
+  - value: https://idp.company.corp
+    op: eq
+    path: iss
+  - value: authorized-users
+    op: in
+    path: realm_access.roles
+allowedEmailSuffix: "@redhat.com"
+emailBlockList:
+  - donotreply@invalid.domain
+```
