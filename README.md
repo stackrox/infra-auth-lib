@@ -45,7 +45,7 @@ accessTokenClaims:
   - value: authorized-users
     op: in
     path: realm_access.roles
-allowedEmailSuffix: "@redhat.com"
+allowedEmailSuffix: "@company.com"
 emailBlockList:
   - donotreply@invalid.domain
 ```
