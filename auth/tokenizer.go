@@ -149,10 +149,6 @@ func (t oidcTokenizer) Validate(ctx context.Context, rawToken *oauth2.Token) (*v
 		return nil, err
 	}
 
-	if err := claims.Valid(); err != nil {
-		return nil, err
-	}
-
 	if rawAccessToken := rawToken.Extra("access_token"); idToken.AccessTokenHash != "" && rawAccessToken != nil {
 		if err := idToken.VerifyAccessToken(rawAccessToken.(string)); err != nil {
 			return nil, err
@@ -225,6 +221,10 @@ type serviceAccountValidator struct {
 }
 
 func (s serviceAccountValidator) Valid() error {
+	if s.ServiceAccount == nil {
+		return errors.New("token does not contain a serviceaccount")
+	}
+
 	_, isExcluded := config.EmailBlockList[s.Email]
 	if isExcluded {
 		return errors.New("email address is excluded")
