@@ -12,4 +12,4 @@ build:
 
 .PHONY: publish
 publish:
-	yarn publish
+	yarn publish --non-interactive

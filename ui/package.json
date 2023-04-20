@@ -1,7 +1,7 @@
 {
   "name": "@stackrox/infra-auth-lib",
   "description": "StackRox library of UI components for infra-auth-lib",
-  "version": "0.0.0-3",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/stackrox/infra-auth-lib.git",
