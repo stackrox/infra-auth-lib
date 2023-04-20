@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #!/usr/bin/env bash
 
 # Generates TypeScript client based on the Swagger 2.0 definitions
