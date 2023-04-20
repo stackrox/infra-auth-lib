@@ -3,6 +3,7 @@ install-dependencies:
 	yarn install --frozen-lockfile
 
 .PHONY: generate-client
+generate-client:
 	yarn gen:src
 
 .PHONY: build
