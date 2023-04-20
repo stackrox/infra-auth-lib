@@ -22,6 +22,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ui/yarn.lock
 
+      - name: Install dependencies
+        run: |
+          cd ui && make install-dependencies
+
       - name: Check generated code is up to date
         run: |
           cd ui && make generate-client
