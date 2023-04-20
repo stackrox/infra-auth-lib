@@ -8,7 +8,7 @@ OPENAPI_GENERATOR_CLI_IMAGE="openapitools/openapi-generator-cli:${OPENAPI_GENERA
 
 CLIENT_DIR="src/client"
 
-# paths below are relative to the git root "infra"
+# paths below are relative to the git root "infra-auth-lib"
 SWAGGER_FILE="generated/openapiv2/proto/api/v1/user.swagger.json"
 GENERATOR_OUTPUT_DIR="ui/${CLIENT_DIR}"
 
