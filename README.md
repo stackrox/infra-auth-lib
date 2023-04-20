@@ -12,13 +12,13 @@ Generate a session secret with:
 python3 -c 'import os,base64; print(base64.urlsafe_b64encode(os.urandom(32)).decode())'
 ```
 
-Create the file. Your `oidc.yaml` config can look like this, if the IDP is reachable from your backend server.
+Create the file. Your `oidc.yaml` config can look like this, if the IDP provides a well-known openid configuration.
 
 ```yaml
 issuer: https://idp.company.corp
 ```
 
-If your IDP is not reachable from your backend server, you must provide the provider configuration offline. Your `oidc.yaml` may look like:
+If your IDP does not provide the configuration file, can still configure this manually. Your `oidc.yaml` may look like:
 
 ```yaml
 offlineProviderConfig: true
@@ -37,7 +37,7 @@ In any case, add client and session information, endpoint, additional access tok
 clientID: awesome-application-id
 clientSecret: Y0xZeFNYVVNkLWJMRWJ0cXNzbmk4QUNna3o1dGUyOTZsUWRCcjFBak51Yz0K
 sessionSecret: Tf12qmXZ5y3kWK5M9wmc_dXjN0GUwhtEcErixd07n1U=
-endpoint: localhost:8443
+endpoint: your-app.company.corp
 accessTokenClaims:
   - value: https://idp.company.corp
     op: eq

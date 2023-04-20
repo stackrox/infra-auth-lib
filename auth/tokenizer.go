@@ -22,6 +22,8 @@ import (
 // https://github.com/dgrijalva/jwt-go/issues/314#issuecomment-494585527
 const clockDriftLeeway = int64(10 * time.Second)
 
+// determineEmail is for funky edge cases, like Azure Active Directory, which provides
+// the email in the prefferedUsername field of the claim for enterprise accounts.
 func determineEmail(profile oidcClaims) string {
 	if profile.Email == "" && strings.HasSuffix(profile.PreferredUsername, config.AllowedEmailSuffix) {
 		return profile.PreferredUsername
@@ -229,6 +231,9 @@ type serviceAccountValidator struct {
 }
 
 func (s serviceAccountValidator) Valid() error {
+	// catching a panic here:
+	// if the bearer token was not a serviceaccount, but e.g. a user token,
+	// s.ServiceAccount is nil.
 	if s.ServiceAccount == nil {
 		return errors.New("token does not contain a serviceaccount")
 	}

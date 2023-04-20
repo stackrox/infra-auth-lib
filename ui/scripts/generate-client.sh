@@ -14,7 +14,7 @@ CLIENT_DIR="src/client"
 SWAGGER_FILE="generated/openapiv2/proto/api/v1/user.swagger.json"
 GENERATOR_OUTPUT_DIR="ui/${CLIENT_DIR}"
 
-set -exuo pipefail
+set -x
 
 docker run --privileged --rm -v "${PWD}/..:/local" "${OPENAPI_GENERATOR_CLI_IMAGE}" generate \
   -i "/local/${SWAGGER_FILE}" \

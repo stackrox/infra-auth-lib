@@ -25,6 +25,7 @@ jobs:
         run: |
           make buf-generated-srcs
           git diff --exit-code HEAD
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
