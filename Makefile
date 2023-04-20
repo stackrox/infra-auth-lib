@@ -2,6 +2,7 @@
 ## Protobuf ##
 ##############
 # This target installs the buf binary.
+.PHONY: buf-install
 buf-install:
 	@brew install bufbuild/buf/buf
 
