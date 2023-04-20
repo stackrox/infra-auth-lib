@@ -22,11 +22,18 @@ import (
 // https://github.com/dgrijalva/jwt-go/issues/314#issuecomment-494585527
 const clockDriftLeeway = int64(10 * time.Second)
 
+func determineEmail(profile oidcClaims) string {
+	if profile.Email == "" && strings.HasSuffix(profile.PreferredUsername, config.AllowedEmailSuffix) {
+		return profile.PreferredUsername
+	}
+	return profile.Email
+}
+
 // createHumanUser synthesizes a v1.User struct from an oidcClaims struct.
 func createHumanUser(profile oidcClaims) *v1.User {
 	return &v1.User{
 		Name:    profile.Name,
-		Email:   profile.Email,
+		Email:   determineEmail(profile),
 		Picture: profile.PictureURL,
 		Expiry:  &timestamp.Timestamp{Seconds: profile.ExpiresAt},
 	}
@@ -104,13 +111,14 @@ func NewOidcTokenizer(verifier *oidc.IDTokenVerifier) *oidcTokenizer {
 // profile data.
 type oidcClaims struct {
 	jwt.StandardClaims
-	FamilyName    string `json:"family_name"`
-	GivenName     string `json:"given_name"`
-	Name          string `json:"name"`
-	Nickname      string `json:"nickname"`
-	PictureURL    string `json:"picture"`
-	Email         string `json:"email"`
-	EmailVerified bool   `json:"email_verified"`
+	FamilyName        string `json:"family_name"`
+	GivenName         string `json:"given_name"`
+	Name              string `json:"name"`
+	Nickname          string `json:"nickname"`
+	PictureURL        string `json:"picture"`
+	Email             string `json:"email"`
+	PreferredUsername string `json:"preferred_username"`
+	EmailVerified     bool   `json:"email_verified"`
 }
 
 // Valid imposes additional validity constraints on OIDC user profile data.
