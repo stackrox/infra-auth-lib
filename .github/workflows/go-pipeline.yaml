@@ -1,4 +1,4 @@
-name: Publish NPM package
+name: Check Go library
 on:
   pull_request:
     types:
