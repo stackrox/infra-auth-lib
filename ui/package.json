@@ -1,0 +1,29 @@
+{
+  "name": "@stackrox/infra-auth-lib",
+  "description": "StackRox library of UI components for infra-auth-lib",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stackrox/infra-auth-lib.git",
+    "directory": "ui"
+  },
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build:ts": "tsc --build",
+    "build": "npm-run-all build:*",
+    "gen:src": "./scripts/generate-client.sh"
+  },
+  "dependencies": {
+    "axios": "^0.21.4"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.8.7",
+    "typescript": "~4.3.5"
+  }
+}

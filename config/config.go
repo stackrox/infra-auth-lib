@@ -7,9 +7,37 @@ import (
 
 // AuthOidcConfig represents the configuration for integrating with OIDC provider.
 type AuthOidcConfig struct {
-	// Issuer is the full URL provided by OIDC provider. An example:
-	// "https://auth.stage.redhat.com/auth/realms/EmployeeIDP".
-	Issuer string `json:"issuer"`
+	// OfflineProviderConfig enables air-gapped OIDC provider integration.
+	// Instead of downloading the provider configuration from the issuer's well-known path,
+	// issuer, authURL, tokenURL, userInfoURL, JWKSURL, and algorithms must be specified
+	// in this config.
+	OfflineProviderConfig bool `json:"offlineProviderConfig"`
+
+	// IssuerURL is the identity of the provider, and the string it uses to sign
+	// ID tokens with. For example "https://accounts.google.com". This value MUST
+	// match ID tokens exactly. This value MUST also be provided if OfflineProviderConfig is false.
+	IssuerURL string `json:"issuer"`
+
+	// AuthURL is the endpoint used by the provider to support the OAuth 2.0
+	// authorization endpoint.
+	AuthURL string `json:"authUrl"`
+	// TokenURL is the endpoint used by the provider to support the OAuth 2.0
+	// token endpoint.
+	TokenURL string `json:"tokenUrl"`
+	// UserInfoURL is the endpoint used by the provider to support the OpenID
+	// Connect UserInfo flow.
+	//
+	// https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+	UserInfoURL string `json:"userInfoUrl"`
+	// JWKSURL is the endpoint used by the provider to advertise public keys to
+	// verify issued ID tokens. This endpoint is polled as new keys are made
+	// available.
+	JWKSURL string `json:"jwksUrl"`
+
+	// Algorithms, if provided, indicate a list of JWT algorithms allowed to sign
+	// ID tokens. If not provided, this defaults to the algorithms advertised by
+	// the JWK endpoint, then the set of algorithms supported by this package.
+	Algorithms []string `json:"algorithms"`
 
 	// ClientID is the client ID for the OIDC application integration.
 	ClientID string `json:"clientID"`
