@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"net/mail"
 	"strings"
 	"time"
 
@@ -22,10 +23,15 @@ import (
 // https://github.com/dgrijalva/jwt-go/issues/314#issuecomment-494585527
 const clockDriftLeeway = int64(10 * time.Second)
 
+func isAnEmail(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
+}
+
 // determineEmail is for funky edge cases, like Azure Active Directory, which provides
 // the email in the prefferedUsername field of the claim for enterprise accounts.
 func determineEmail(profile oidcClaims) string {
-	if profile.Email == "" && strings.HasSuffix(profile.PreferredUsername, config.AllowedEmailSuffix) {
+	if profile.Email == "" && isAnEmail(profile.PreferredUsername) {
 		return profile.PreferredUsername
 	}
 	return profile.Email
@@ -127,16 +133,18 @@ type oidcClaims struct {
 // Specifically, it enforces users to have verified email addresses and that
 // those email addresses are from the allowed domains.
 func (c oidcClaims) Valid() error {
-	_, isExcluded := config.EmailBlockList[c.Email]
+	email := determineEmail(c)
+
+	_, isExcluded := config.EmailBlockList[email]
 	if isExcluded {
 		return errors.New("email address is excluded")
 	}
 
 	switch {
-	case !c.EmailVerified:
+	case c.Email != "" && !c.EmailVerified:
 		return errors.New("email address is not verified")
-	case !strings.HasSuffix(c.Email, config.AllowedEmailSuffix):
-		return errors.Errorf("%q email address does not have the allowed email suffix", c.Email)
+	case !strings.HasSuffix(email, config.AllowedEmailSuffix):
+		return errors.Errorf("%q email address does not have the allowed email suffix", email)
 	default:
 		c.StandardClaims.IssuedAt -= clockDriftLeeway
 		valid := c.StandardClaims.Valid()
@@ -163,6 +171,10 @@ func (t oidcTokenizer) Validate(ctx context.Context, rawToken *oauth2.Token) (*v
 		if err := idToken.VerifyAccessToken(rawAccessToken.(string)); err != nil {
 			return nil, err
 		}
+	}
+
+	if err := claims.Valid(); err != nil {
+		return nil, err
 	}
 
 	return createHumanUser(claims), nil
