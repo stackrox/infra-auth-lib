@@ -36,7 +36,7 @@ jobs:
           cd ui && make build
 
       - name: Publish package
-        if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ secrets.ROBOT_ROX_GITHUB_TOKEN }}
         run: |
