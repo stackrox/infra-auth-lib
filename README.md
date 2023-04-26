@@ -49,3 +49,32 @@ allowedEmailSuffix: "@company.com"
 emailBlockList:
   - donotreply@invalid.domain
 ```
+
+## How it works
+
+## Login flow for humans
+
+![Auth Flow for Login](docs/images/auth-flow-login.drawio.png)
+
+This displays the initial login flow.
+For subsequent access, if the token stored in the cookie is still valid, the hop to the identity provider is skipped.
+
+The authentication middleware in the backend transforms the user token into a service account, which can be accessed from the context in the request handlers.
+
+## Human access to backend with Service Account Token
+
+![Auth Flow for Humans with Service Account Token](docs/images/auth-flow-human-sa-token.drawio.png)
+
+Humans can access their service account token through the UI (or calling the `/token` endpoint directly).
+They authenticate this request with their user token, provided by the identity provider.
+
+The returned service account token can be used for subsequent API requests.
+
+## Technical user access to backend with Service Account Token
+
+![Auth Flow for Generating Service Account Tokens for Technical Users](docs/images/auth-flow-robot-sa-token.drawio.png)
+
+An administrator calls the `/create-token` with the admin password from the server configuration.
+In this request, they must specify a name, description and an email address.
+
+The returned service account token can be used for subsequent API requests.
