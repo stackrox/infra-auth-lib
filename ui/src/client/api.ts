@@ -201,7 +201,7 @@ export const UserServiceApiAxiosParamCreator = function (configuration?: Configu
      */
     userServiceCreateToken: async (
       body: V1ServiceAccount,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'body' is not null or undefined
       assertParamExists('userServiceCreateToken', 'body', body);
@@ -229,7 +229,7 @@ export const UserServiceApiAxiosParamCreator = function (configuration?: Configu
       localVarRequestOptions.data = serializeDataIfNeeded(
         body,
         localVarRequestOptions,
-        configuration
+        configuration,
       );
 
       return {
@@ -246,7 +246,7 @@ export const UserServiceApiAxiosParamCreator = function (configuration?: Configu
      */
     userServiceToken: async (
       body: object,
-      options: AxiosRequestConfig = {}
+      options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'body' is not null or undefined
       assertParamExists('userServiceToken', 'body', body);
@@ -274,7 +274,7 @@ export const UserServiceApiAxiosParamCreator = function (configuration?: Configu
       localVarRequestOptions.data = serializeDataIfNeeded(
         body,
         localVarRequestOptions,
-        configuration
+        configuration,
       );
 
       return {
@@ -333,11 +333,11 @@ export const UserServiceApiFp = function (configuration?: Configuration) {
      */
     async userServiceCreateToken(
       body: V1ServiceAccount,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1TokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.userServiceCreateToken(
         body,
-        options
+        options,
       );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -350,7 +350,7 @@ export const UserServiceApiFp = function (configuration?: Configuration) {
      */
     async userServiceToken(
       body: object,
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1TokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.userServiceToken(body, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -362,7 +362,7 @@ export const UserServiceApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async userServiceWhoami(
-      options?: AxiosRequestConfig
+      options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1WhoamiResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.userServiceWhoami(options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -377,7 +377,7 @@ export const UserServiceApiFp = function (configuration?: Configuration) {
 export const UserServiceApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
-  axios?: AxiosInstance
+  axios?: AxiosInstance,
 ) {
   const localVarFp = UserServiceApiFp(configuration);
   return {
