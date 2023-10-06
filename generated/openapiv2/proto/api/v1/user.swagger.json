@@ -40,6 +40,7 @@
             "in": "body",
             "required": true,
             "schema": {
+              "type": "object",
               "properties": {}
             }
           }
@@ -70,6 +71,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "ServiceAccount represents an authenticated service account (robot) principal.",
             "in": "body",
             "required": true,
             "schema": {
@@ -129,6 +131,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }
