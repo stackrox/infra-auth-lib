@@ -195,7 +195,7 @@ export const UserServiceApiAxiosParamCreator = function (configuration?: Configu
     /**
      *
      * @summary CreateToken generates an arbitrary service account token
-     * @param {V1ServiceAccount} body
+     * @param {V1ServiceAccount} body ServiceAccount represents an authenticated service account (robot) principal.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -327,7 +327,7 @@ export const UserServiceApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary CreateToken generates an arbitrary service account token
-     * @param {V1ServiceAccount} body
+     * @param {V1ServiceAccount} body ServiceAccount represents an authenticated service account (robot) principal.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -384,7 +384,7 @@ export const UserServiceApiFactory = function (
     /**
      *
      * @summary CreateToken generates an arbitrary service account token
-     * @param {V1ServiceAccount} body
+     * @param {V1ServiceAccount} body ServiceAccount represents an authenticated service account (robot) principal.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -425,7 +425,7 @@ export class UserServiceApi extends BaseAPI {
   /**
    *
    * @summary CreateToken generates an arbitrary service account token
-   * @param {V1ServiceAccount} body
+   * @param {V1ServiceAccount} body ServiceAccount represents an authenticated service account (robot) principal.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UserServiceApi
