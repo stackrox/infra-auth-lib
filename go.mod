@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/coreos/go-oidc/v3 v3.6.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20231002182017-d307bd883b97
-	google.golang.org/grpc v1.58.2
+	google.golang.org/grpc v1.58.3
 )
 
 require (
