@@ -38,7 +38,7 @@ jobs:
       - name: Publish package
         if: startsWith(github.ref, 'refs/tags/v')
         env:
-          GITHUB_TOKEN: ${{ secrets.ROBOT_ROX_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RHACS_BOT_GITHUB_TOKEN }}
         run: |
           echo "//npm.pkg.github.com/:_authToken=\"$GITHUB_TOKEN\"" > ~/.npmrc
           cd ui && make publish
